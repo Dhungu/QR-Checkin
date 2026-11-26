@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Ticket · {{ event.name }}{% endblock %}
+{% block body %}
+<main class="ticket-page">
+  <article class="pass" aria-label="Event ticket">
+    <div class="pass-top"><small>Event pass</small><h1>{{ event.name }}</h1></div>
+    <div class="pass-meta">
+      <div class="full"><small>Attendee</small><b style="font-size:1.2rem">{{ attendee.full_name }}</b></div>
+      <div><small>Starts</small><b><time class="localtime" datetime="{{ event.start_time.isoformat() }}">{{ event.start_time.strftime('%d %b %Y, %H:%M') }} UTC</time></b></div>
+      <div><small>Ends</small><b><time class="localtime" datetime="{{ event.end_time.isoformat() }}">{{ event.end_time.strftime('%d %b %Y, %H:%M') }} UTC</time></b></div>
+      <div class="full"><small>Status</small>
+        {% if attendee.status.value == 'revoked' %}<span class="badge bad status-pill">Cancelled</span>
+        {% elif attendee.status.value == 'checked_in' %}<span class="badge warn status-pill">Checked in</span>
+        {% else %}<span class="badge ok status-pill">Valid</span>{% endif %}</div>
+    </div>
+    <div class="tear"></div>
+    <div class="pass-qr">
+      {% if attendee.status.value == 'revoked' %}
+        <p><b>This ticket is no longer valid.</b></p>
+      {% else %}
+        <div class="qr"><img src="/ticket/{{ attendee.ticket_token }}/qr.png" alt="Your entry QR code" width="240" height="240"></div>
+        <p>Show this code at the entrance. Keep it private — one scan admits one person.</p>
+      {% endif %}
+    </div>
+  </article>
+</main>
+{% endblock %}
+{% block scripts %}<script src="/static/js/ticket.js"></script>{% endblock %}

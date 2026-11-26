@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% set active = 'dashboard' %}
+{% set auth_title = 'Organizer sign-in' %}
+{% block title %}Organizer console · {{ app_name }}{% endblock %}
+{% block content %}
+<main class="container">
+  <div class="page-head">
+    <div><h1>Organizer console</h1><p>Manage events, attendees and live check-in progress.</p></div>
+    <button class="btn primary" id="newEventBtn" type="button">+ New event</button>
+  </div>
+  <div class="grid cols-dash">
+    <aside class="card" style="align-self:start">
+      <div class="card-h"><h2>Events</h2></div>
+      <ul class="event-list" id="eventList"><li class="empty">Loading…</li></ul>
+    </aside>
+
+    <section id="eventPane" hidden>
+      <div class="page-head" style="margin-bottom:14px">
+        <div><h2 id="evName" style="font-size:1.3rem"></h2><p id="evWhen" class="muted" style="margin:4px 0 0"></p></div>
+        <span class="badge" id="evLive">● live</span>
+      </div>
+      <div class="stats">
+        <div class="card stat"><span>Registered</span><b id="sTotal">0</b></div>
+        <div class="card stat"><span>Checked in</span><b id="sIn">0</b></div>
+        <div class="card stat"><span>Pending</span><b id="sPend">0</b></div>
+        <div class="card stat"><span>Revoked</span><b id="sRev">0</b></div>
+      </div>
+      <div class="card card-b" style="margin-bottom:20px">
+        <div class="row" style="justify-content:space-between;margin-bottom:8px"><b>Attendance</b><span class="muted" id="sPct">0%</span></div>
+        <div class="progress"><i id="bar"></i></div>
+      </div>
+
+      <div class="grid cols-2" style="align-items:start">
+        <div class="card">
+          <div class="card-h"><h2>Attendees <span class="muted" id="attCount"></span></h2>
+            <input class="input" id="search" placeholder="Search name or email" style="max-width:220px" aria-label="Search attendees"></div>
+          <div class="table-wrap"><table>
+            <thead><tr><th>Name</th><th>Status</th><th></th></tr></thead>
+            <tbody id="attBody"></tbody></table></div>
+          <div class="empty" id="attEmpty" hidden>No attendees yet. Register one or import a CSV.</div>
+          <div class="card-b row" style="justify-content:space-between" id="pager" hidden>
+            <button class="btn sm" id="prevBtn" type="button">← Prev</button><span class="muted" id="pageInfo"></span>
+            <button class="btn sm" id="nextBtn" type="button">Next →</button></div>
+        </div>
+
+        <div class="grid">
+          <form class="card" id="attForm" autocomplete="off">
+            <div class="card-h"><h2>Register attendee</h2></div>
+            <div class="card-b">
+              <div class="field"><label for="aName">Full name</label><input class="input" id="aName" required maxlength="255"></div>
+              <div class="field"><label for="aEmail">Email</label><input class="input" id="aEmail" type="email" required maxlength="255"></div>
+              <button class="btn primary block" type="submit">Register &amp; generate ticket</button>
+              <hr style="border:0;border-top:1px solid var(--border);margin:16px 0">
+              <div class="field" style="margin:0"><label for="csvFile">Bulk import (CSV: full_name,email)</label>
+                <input class="input" id="csvFile" type="file" accept=".csv,text/csv"></div>
+            </div>
+          </form>
+          <div class="card">
+            <div class="card-h"><h2>Live activity</h2></div>
+            <ul class="feed" id="activity"><li class="empty" style="display:block">No check-ins yet.</li></ul>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section id="noEvent" class="card empty" hidden><p>Create your first event to get started.</p></section>
+  </div>
+</main>
+
+<div class="modal" id="eventModal" role="dialog" aria-modal="true" aria-labelledby="evTitle">
+  <form class="card" id="eventForm" autocomplete="off">
+    <div class="card-h"><h2 id="evTitle">New event</h2><button class="btn sm" type="button" id="evCancel">Cancel</button></div>
+    <div class="card-b">
+      <div class="field"><label for="eName">Name</label><input class="input" id="eName" required maxlength="255"></div>
+      <div class="field"><label for="eStart">Starts</label><input class="input" id="eStart" type="datetime-local" required></div>
+      <div class="field"><label for="eEnd">Ends</label><input class="input" id="eEnd" type="datetime-local" required></div>
+      <p class="err" id="eErr" role="alert"></p>
+      <button class="btn primary block" type="submit">Create event</button>
+    </div>
+  </form>
+</div>
+{% endblock %}
+{% block scripts %}<script src="/static/js/dashboard.js"></script>{% endblock %}

@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>{% block title %}{{ app_name }}{% endblock %}</title>
+  <meta name="color-scheme" content="light dark">
+  <link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/static/css/app.css">
+</head>
+<body>
+{% block body %}
+  <header class="topbar"><div class="topbar-in">
+    <a class="brand" href="/"><img src="/static/favicon.svg" alt="">{{ app_name }}</a>
+    <nav class="nav" aria-label="Main">
+      <a href="/dashboard" {% if active == 'dashboard' %}class="active"{% endif %}>Organizer</a>
+      <a href="/scanner" {% if active == 'scanner' %}class="active"{% endif %}>Scanner</a>
+      <a href="/docs">API</a>
+    </nav>
+    <span class="spacer"></span>
+    {% block topbar_extra %}{% endblock %}
+  </div></header>
+  {% block content %}{% endblock %}
+  {% include "_auth_modal.html" %}
+{% endblock %}
+<script src="/static/js/common.js"></script>
+{% block scripts %}{% endblock %}
+</body>
+</html>

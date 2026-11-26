@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% set active = 'scanner' %}
+{% set auth_title = 'Gate staff sign-in' %}
+{% block title %}Gate scanner · {{ app_name }}{% endblock %}
+{% block topbar_extra %}<span class="badge" id="who" hidden></span>{% endblock %}
+{% block content %}
+<main class="container">
+  <div class="page-head"><div><h1>Gate scanner</h1><p>Point the camera at a ticket QR code.</p></div></div>
+  <div class="grid cols-2">
+    <section>
+      <div class="viewer" id="viewer">
+        <div id="reader"></div>
+        <div class="frame"></div>
+        <div class="idle"><div><div style="font-size:2.4rem">◎</div><p>Camera is off.<br>Press “Start camera” to begin scanning.</p></div></div>
+      </div>
+      <div class="row" style="margin-top:14px">
+        <button class="btn primary" id="startBtn" type="button">Start camera</button>
+        <button class="btn" id="switchBtn" type="button" hidden>Switch camera</button>
+        <button class="btn" id="uploadBtn" type="button">Upload image</button>
+        <button class="btn" id="muteBtn" type="button" aria-pressed="false">🔊 Sound on</button>
+        <input type="file" id="fileInput" accept="image/*" hidden>
+      </div>
+      <div class="result" id="result" role="status" aria-live="assertive">
+        <div class="icon" id="resIcon">…</div>
+        <div><h3 id="resTitle">Ready to scan</h3><p id="resText">Results appear here.</p></div>
+      </div>
+      <form class="row" id="manualForm" style="margin-top:14px" autocomplete="off">
+        <input class="input grow" id="manualToken" placeholder="Or paste a ticket code manually" aria-label="Ticket code">
+        <button class="btn" type="submit">Check in</button>
+      </form>
+    </section>
+    <aside class="card" style="align-self:start">
+      <div class="card-h"><h2>This session</h2><button class="btn sm" id="clearBtn" type="button">Clear</button></div>
+      <div class="counters">
+        <div class="counter"><b id="cOk">0</b><span>Admitted</span></div>
+        <div class="counter"><b id="cDup">0</b><span>Duplicates</span></div>
+        <div class="counter"><b id="cBad">0</b><span>Rejected</span></div>
+      </div>
+      <ul class="feed" id="feed"><li class="empty" id="feedEmpty" style="display:block">No scans yet.</li></ul>
+    </aside>
+  </div>
+</main>
+{% endblock %}
+{% block scripts %}
+<script src="/static/vendor/html5-qrcode.min.js"></script>
+<script src="/static/js/scanner.js"></script>
+{% endblock %}

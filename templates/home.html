@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+<main class="container">
+  <section class="hero">
+    <span class="badge brand">HMAC-signed tickets · race-safe scanning</span>
+    <h1 style="margin-top:14px">Check guests in at the speed of a scan.</h1>
+    <p>Create events, issue tamper-resistant QR tickets, and validate them at the gate in real time.
+       Every ticket can be used exactly once, even when two staff scan it at the same instant.</p>
+  </section>
+  <div class="tiles">
+    <a class="card tile" href="/dashboard"><div class="ico">▦</div><h3>Organizer console</h3>
+      <p>Create events, register or bulk-import attendees, watch live check-in progress.</p></a>
+    <a class="card tile" href="/scanner"><div class="ico">◎</div><h3>Gate scanner</h3>
+      <p>Scan with the camera or upload a photo. Clear green and red feedback with sound.</p></a>
+    <a class="card tile" href="/docs"><div class="ico">{ }</div><h3>API reference</h3>
+      <p>Interactive OpenAPI docs for every endpoint.</p></a>
+  </div>
+  <div class="feature-list">
+    <span class="badge">SELECT … FOR UPDATE</span><span class="badge">Unique-constraint backstop</span>
+    <span class="badge">Rate limiting</span><span class="badge">Audit log</span><span class="badge">Alembic migrations</span>
+  </div>
+</main>
+{% endblock %}

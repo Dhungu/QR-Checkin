@@ -1,0 +1,14 @@
+<div class="modal" id="authModal" role="dialog" aria-modal="true" aria-labelledby="authTitle">
+  <form class="card" id="authForm" autocomplete="off">
+    <div class="card-h"><h2 id="authTitle">{{ auth_title|default("Sign in with your access key") }}</h2></div>
+    <div class="card-b">
+      <div class="field"><label for="authKey">Access key</label>
+        <input class="input" id="authKey" type="password" required placeholder="Paste your key"></div>
+      <div class="field"><label for="authName">Your name (recorded with each scan)</label>
+        <input class="input" id="authName" type="text" maxlength="100" placeholder="e.g. Aisha – Gate 2"></div>
+      <p class="err" id="authError" role="alert"></p>
+      <button class="btn primary block" type="submit">Continue</button>
+      <p class="muted" style="font-size:.8rem;margin:12px 0 0">The key stays in this browser tab only and is cleared when you close it.</p>
+    </div>
+  </form>
+</div>
